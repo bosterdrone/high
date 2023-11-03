@@ -1,1 +1,47 @@
+-- Configuration
+local highlightColor = Color3.new(1, 0, 0)  -- Red (change this to the color you want)
+local highlightTransparency = 0.5  -- 0 (fully opaque) to 1 (fully transparent)
 
+-- Function to highlight a player
+local function highlightPlayer(player)
+    local character = player.Character
+    if character then
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.BrickColor = BrickColor.new(highlightColor)
+                part.Transparency = highlightTransparency
+            end
+        end
+    end
+end
+
+-- Function to unhighlight a player
+local function unhighlightPlayer(player)
+    local character = player.Character
+    if character then
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.BrickColor = part.OriginalBrickColor
+                part.Transparency = part.OriginalTransparency
+            end
+        end
+    end
+end
+
+-- Highlight the player when they join
+game.Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.OriginalBrickColor = part.BrickColor
+                part.OriginalTransparency = part.Transparency
+            end
+        end
+        highlightPlayer(player)
+    end)
+end)
+
+-- Unhighlight the player when they leave
+game.Players.PlayerRemoving:Connect(function(player)
+    unhighlightPlayer(player)
+end)
