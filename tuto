@@ -1,0 +1,13 @@
+-- Server script
+local Players = game:GetService("Players")
+
+-- Create a Highlight instance for each player in the server
+for _, Player in ipairs(Players:GetPlayers()) do
+    local Highlight = Instance.new("Highlight")
+    Highlight.Adornee = Player.Character
+
+    -- Set the Highlight properties
+    Highlight.FillTransparency = 1
+    Highlight.OutlineColor = Color3.fromRGB(0,214,255)
+    Highlight.OutlineTransparency = 0
+end
